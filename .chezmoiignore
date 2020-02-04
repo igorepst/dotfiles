@@ -2,3 +2,4 @@
 .xinitrc
 {{- end }}
 _ignore
+README.md
