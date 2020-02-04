@@ -1,0 +1,14 @@
+# vim: set ft=zsh:
+
+function ri() {
+  if [ -t 1 ]; then
+    # Output is tty
+    colorval="always"
+  else
+    colorval="never"
+  fi
+  sval="$1"
+  shift
+  rg -e ${sval} --color=$colorval --smart-case --follow --heading --hidden --line-number $@
+}
+

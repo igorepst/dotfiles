@@ -1,0 +1,22 @@
+{
+    "name": "seoul-darker",
+    "displayName": "SeoulDarker",
+    "description": "Port of the Seoul256 Vim color scheme (https://github.com/junegunn/seoul256.vim)",
+    "version": "0.0.1",
+    "publisher": "igorepst",
+    "engines": {
+        "vscode": "^1.23.0"
+    },
+    "categories": [
+        "Themes"
+    ],
+    "contributes": {
+        "themes": [
+            {
+                "label": "Seoul Darker",
+                "uiTheme": "vs-dark",
+                "path": "./themes/Seoul Darker-color-theme.json"
+            }
+        ]
+    }
+}

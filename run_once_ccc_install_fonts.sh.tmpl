@@ -1,0 +1,17 @@
+{{ if eq .chezmoi.osRelease.name "Arch Linux" -}}
+
+#!/bin/sh
+
+tmpdir=$(/usr/bin/mktemp -d) 
+
+echo 'Installing fonts:'
+echo "Installing DejaVu Sans Mono Nerd Font Complete Mono.ttf"
+/usr/bin/curl -o "$tmpdir/DejaVu Sans Mono Nerd Font Complete Mono.ttf" -L -O https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete%20Mono.ttf
+echo "Installing DejaVu Sans Mono Bold Nerd Font Complete Mono.ttf"
+/usr/bin/curl -o "$tmpdir/DejaVu Sans Mono Bold Nerd Font Complete Mono.ttf" -L -O https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DejaVuSansMono/Bold/complete/DejaVu%20Sans%20Mono%20Bold%20Nerd%20Font%20Complete%20Mono.ttf
+
+fdir=~/.local/share/fonts
+/usr/bin/mkdir -p "$fdir"
+/usr/bin/mv -f -t "$fdir" "$tmpdir/"*.ttf
+/usr/bin/fc-cache
+{{ end -}}

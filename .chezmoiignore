@@ -1,0 +1,4 @@
+{{- if ne .pctype "home" }}
+.xinitrc
+{{- end }}
+_ignore

@@ -1,0 +1,11 @@
+aeschli.vscode-css-formatter
+cmstead.jsrefactor
+CoenraadS.bracket-pair-colorizer-2
+formulahendry.code-runner
+ms-vscode.vscode-typescript-tslint-plugin
+msjsdiag.debugger-for-chrome
+pflannery.vscode-versionlens
+ritwickdey.LiveServer
+ryanolsonx.seoul
+igorepst.seoul-darker
+sibiraj-s.vscode-scss-formatter

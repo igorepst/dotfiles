@@ -1,0 +1,34 @@
+{{ if eq .chezmoi.osRelease.name "Arch Linux" -}}
+
+#!/bin/sh
+
+echo 'Checking prerequisites packages to install:'
+pnames=""
+
+function checkP() {
+    /usr/bin/pacman -Qs '^'$1'$' >/dev/null && echo "$1 is installed" || pnames="$pnames $1"
+}
+
+checkP zsh
+checkP kitty
+checkP ripgrep
+checkP fzf
+checkP neovim
+checkP python-pynvim
+checkP rofi
+checkP mpv
+checkP xclip
+checkP exa
+checkP bat
+checkP fd
+checkP vifm
+
+if [ ! -z "$pnames" ]; then
+    echo 'Installing the following packages:'
+    echo $pnames
+    sudo /usr/bin/pacman -Sy $pnames
+else
+    echo 'All the packages are installed'
+fi
+
+{{ end -}}
