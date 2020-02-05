@@ -1,6 +1,6 @@
 # vim:fileencoding=utf-8:ft=conf:foldmethod=marker:nofoldenable
 
-#: Fonts {{{
+#: Fonts
 
 #: kitty has very powerful font management. You can configure
 #: individual font faces and even specify special fonts for particular
@@ -23,7 +23,11 @@ bold_italic_font auto
 #:     italic_font      Operator Mono Book Italic
 #:     bold_italic_font Operator Mono Medium Italic
 
+{{- if eq .pctype "home" }}
 font_size 16.0
+{{- else }}
+font_size 13.0
+{{- end }}
 
 #: Font size (in pts)
 
@@ -70,9 +74,9 @@ box_drawing_scale 0.001, 1, 1.5, 2
 #: monitor DPI to arrive at a pixel value. There must be four values
 #: corresponding to thin, normal, thick, and very thick lines.
 
-#: }}}
+#: 
 
-#: Cursor customization {{{
+#: Cursor customization 
 
 cursor #d0d0d0
 
@@ -100,9 +104,9 @@ cursor_stop_blinking_after 15.0
 #: Stop blinking cursor after the specified number of seconds of
 #: keyboard inactivity.  Set to zero to never stop blinking.
 
-#: }}}
+#: 
 
-#: Scrollback {{{
+#: Scrollback 
 
 scrollback_lines 5000
 
@@ -144,16 +148,16 @@ touch_scroll_multiplier 1.0
 #: for high precision scrolling devices on platforms such as macOS and
 #: Wayland. Use negative numbers to change scroll direction.
 
-#: }}}
+#: 
 
-#: Mouse {{{
+#: Mouse 
 
 mouse_hide_wait 3.0
 
 #: Hide mouse cursor after the specified number of seconds of the
 #: mouse not being used. Set to zero to disable mouse cursor hiding.
 #: Set to a negative value to hide the mouse cursor immediately when
-#: typing text. Disabled by default on macOS as getting it to work
+#: typing text. Disabled by default on macOS as getting it to {{ .pctype }}
 #: robustly with the ever-changing sea of bugs that is Cocoa is too
 #: much effort.
 
@@ -228,9 +232,9 @@ pointer_shape_when_grabbed arrow
 #: The shape of the mouse pointer when the program running in the
 #: terminal grabs the mouse.
 
-#: }}}
+#: 
 
-#: Performance tuning {{{
+#: Performance tuning 
 
 repaint_delay 10
 
@@ -259,9 +263,9 @@ sync_to_monitor yes
 #: keyboard repeat rate, you may notice some slight input latency. If
 #: so, set this to no.
 
-#: }}}
+#: 
 
-#: Terminal bell {{{
+#: Terminal bell 
 
 enable_audio_bell no
 
@@ -276,7 +280,7 @@ visual_bell_duration 0.0
 window_alert_on_bell yes
 
 #: Request window attention on bell. Makes the dock icon bounce on
-#: macOS or the taskbar flash on linux.
+#: macOS or the taskbar flash on {{ .chezmoi.os }}.
 
 bell_on_tab yes
 
@@ -288,9 +292,9 @@ command_on_bell none
 
 #: Program to run when a bell occurs.
 
-#: }}}
+#: 
 
-#: Window layout {{{
+#: Window layout 
 
 remember_window_size  yes
 initial_window_width  640
@@ -397,9 +401,9 @@ resize_draw_strategy static
 #: scaled. A value of blank means draw a blank window. A value of size
 #: means show the window size in cells.
 
-#: }}}
+#: 
 
-#: Tab bar {{{
+#: Tab bar 
 
 tab_bar_edge bottom
 
@@ -459,9 +463,9 @@ inactive_tab_font_style bold
 
 #: Tab bar colors and styles
 
-#: }}}
+#: 
 
-#: Color scheme {{{
+#: Color scheme 
 
 foreground #d0d0d0
 background #303030
@@ -471,7 +475,7 @@ background #303030
 background_opacity         1.0
 
 #: The opacity of the background. A number between 0 and 1, where 1 is
-#: opaque and 0 is fully transparent.  This will only work if
+#: opaque and 0 is fully transparent.  This will only {{ .pctype }} if
 #: supported by the OS (for instance, when using a compositor under
 #: X11). Note that it only sets the default background color's
 #: opacity. This is so that things like the status bar in vim,
@@ -551,9 +555,9 @@ color15 #e4e4e4
 
 #: white
 
-#: }}}
+#: 
 
-#: Advanced {{{
+#: Advanced 
 
 shell .
 
@@ -579,7 +583,7 @@ close_on_child_death no
 #: example disowned or backgrounded processes). If yes, the window
 #: will close as soon as the child process exits. Note that setting it
 #: to yes means that any background processes still using the terminal
-#: can fail silently because their stdout/stderr/stdin no longer work.
+#: can fail silently because their stdout/stderr/stdin no longer {{ .pctype }}.
 
 allow_remote_control no
 
@@ -644,11 +648,11 @@ term xterm-kitty
 #: you change it, depending on what programs you run, and how
 #: different the terminal you are changing it to is, various things
 #: from key-presses, to colors, to various advanced features may not
-#: work.
+#: {{ .pctype }}.
 
-#: }}}
+#: 
 
-#: OS specific tweaks {{{
+#: OS specific tweaks 
 
 macos_titlebar_color system
 
@@ -714,15 +718,15 @@ macos_custom_beam_cursor no
 #: on both light and dark backgrounds. WARNING: this might make your
 #: mouse cursor invisible on dual GPU machines.
 
-linux_display_server auto
+{{ .chezmoi.os }}_display_server auto
 
 #: Choose between Wayland and X11 backends. By default, an appropriate
 #: backend based on the system state is chosen automatically. Set it
 #: to x11 or wayland to force the choice.
 
-#: }}}
+#: 
 
-#: Keyboard shortcuts {{{
+#: Keyboard shortcuts 
 
 #: For a list of key names, see: GLFW keys
 #: <https://www.glfw.org/docs/latest/group__keys.html>. The name to
@@ -798,7 +802,7 @@ clear_all_shortcuts no
 #: kitty +kitten hints --hints-offset to zero for all mappings,
 #: including the builtin ones.
 
-#: Clipboard {{{
+#: Clipboard 
 
 map kitty_mod+c copy_to_clipboard
 
@@ -824,9 +828,9 @@ map kitty_mod+o  pass_selection_to_program
 
 #:     map kitty_mod+y new_window less @selection
 
-#: }}}
+#: 
 
-#: Scrolling {{{
+#: Scrolling 
 
 map kitty_mod+up        scroll_line_up
 map kitty_mod+k         scroll_line_up
@@ -848,9 +852,9 @@ map kitty_mod+h         show_scrollback
 #: For more details on piping screen and buffer contents to external
 #: programs, see launch.
 
-#: }}}
+#: 
 
-#: Window management {{{
+#: Window management 
 
 map kitty_mod+enter new_window
 
@@ -902,9 +906,9 @@ map kitty_mod+7 seventh_window
 map kitty_mod+8 eighth_window
 map kitty_mod+9 ninth_window
 map kitty_mod+0 tenth_window
-#: }}}
+#: 
 
-#: Tab management {{{
+#: Tab management 
 
 map kitty_mod+right next_tab
 map kitty_mod+left  previous_tab
@@ -927,9 +931,9 @@ map kitty_mod+alt+t set_tab_title
 #: the current tab rather than at the end of the tabs list, use::
 
 #:     map ctrl+t new_tab !neighbor [optional cmd to run]
-#: }}}
+#: 
 
-#: Layout management {{{
+#: Layout management 
 
 map kitty_mod+l next_layout
 
@@ -941,9 +945,9 @@ map kitty_mod+l next_layout
 #: Similarly, to switch back to the previous layout::
 
 #:    map ctrl+alt+p last_used_layout
-#: }}}
+#: 
 
-#: Font sizes {{{
+#: Font sizes 
 
 #: You can change the font size for all top-level kitty OS windows at
 #: a time or only the current one.
@@ -960,9 +964,9 @@ map kitty_mod+backspace change_font_size all 0
 #: size::
 
 #:     map kitty_mod+f6 change_font_size current 10.0
-#: }}}
+#: 
 
-#: Select and act on visible text {{{
+#: Select and act on visible text 
 
 #: Use the hints kitten to select text and either pass it to an
 #: external program or insert it into the terminal or copy it to the
@@ -1001,9 +1005,9 @@ map kitty_mod+p>h kitten hints --type hash --program -
 
 #: The hints kitten has many more modes of operation that you can map
 #: to different shortcuts. For a full description see kittens/hints.
-#: }}}
+#: 
 
-#: Miscellaneous {{{
+#: Miscellaneous 
 
 map kitty_mod+f11    toggle_fullscreen
 map kitty_mod+f10    toggle_maximized
@@ -1064,6 +1068,6 @@ map kitty_mod+delete clear_terminal reset active
 #:     map ctrl+alt+a send_text normal Word\x1b[H
 #:     map ctrl+alt+a send_text application Word\x1bOH
 
-#: }}}
+#: 
 
-# }}}
+# 

@@ -3,7 +3,11 @@ configuration {
 /*	width: 50;*/
 /*	lines: 15;*/
 /*	columns: 1;*/
+{{- if eq .pctype "home" }}
 	font: "mono 16";
+{{- else }}
+	font: "mono 13";
+{{- end }}
 /*	bw: 1;*/
 /*	location: 0;*/
 /*	padding: 5;*/
