@@ -1,5 +1,6 @@
 [ActivityManager]
 _k_friendly_name=Activity Manager
+switch-to-activity-cf7e7b6e-6b99-4923-8674-0ff46876917a=none,none,Switch to activity "Default"
 switch-to-activity-d1788556-9361-4887-9a35-f2274cfa9081=none,none,Switch to activity "Default"
 
 [KDE Keyboard Layout Switcher]
@@ -26,8 +27,8 @@ display=Display\tMeta+P,Display\tMeta+P,Switch Display
 
 [khotkeys]
 _k_friendly_name=KDE Daemon
-{2783e8a5-650a-4c07-bb11-da28ef5529e3}=Meta+R,none,Launcher
-{66a0c141-5b6f-40f5-b14e-49684569d504}=Meta+Return,none,Terminal
+{b85307f0-09dd-48a3-a7be-8588d17ba39c}=Meta+R,none,rofi
+{bb4a3f5d-d7b1-41b7-a179-de3e8ca1eefe}=Meta+Return,none,Kitty
 {d03619b6-9b3c-48cc-9d9c-a2aadb485550}=,none,Search
 
 [kmix]
