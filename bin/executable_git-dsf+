@@ -1,0 +1,8 @@
+#!/bin/sh
+f() {
+    [ -z "$GIT_PREFIX" ] || cd "$GIT_PREFIX" && \
+    git diff --color "$@" | diff-so-fancy | less --tabs=4 -iRFX \
+      --pattern '^(Date|added|deleted|modified): '
+}
+
+f "$@"

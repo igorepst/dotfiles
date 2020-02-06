@@ -1,0 +1,3 @@
+#!/bin/bash
+cf=$(FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} ${FZF_PREVIEW_OPTS}" fzf-tmux) && \
+    [ ! -z "${cf}" ] && git dsf HEAD~1 HEAD -- "${cf}"  
