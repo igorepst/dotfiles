@@ -10,9 +10,7 @@ function () {
   # Preview should not be in FZF_DEFAULT_OPTS to use with pipe
   # https://github.com/junegunn/fzf.vim/issues/771
   export FZF_DEFAULT_OPTS="--height 60% --reverse --border --ansi"
-  export FZF_PREVIEW_OPTS="--preview-window 'right:60%' --preview \"[ -d {} ] && \
-    (exa -lbhg --git --color=always {}/ | head -15) || \ 
-    bat --color=always --style=header,grid --line-range :15 {}\""
+  export FZF_PREVIEW_OPTS="--preview-window 'right:60%' --preview '[ -d {} ] && (exa -lbhg --git --color=always {}/ | head -15) || bat --color=always --style=header,grid --line-range :15 {}'"
   # Paste the selected files and directories onto the command line
   export FZF_CTRL_T_COMMAND=${_FZF_DEF_CMD_}
   export FZF_CTRL_T_OPTS=${FZF_DEFAULT_OPTS}' '${FZF_PREVIEW_OPTS}
@@ -36,3 +34,12 @@ function () {
   }
 }
 
+function fo() {
+  local out file key
+  IFS=$'\n' out=("$(fzf-tmux --header='Ctrl-o -> Open, Ctrl-e/Enter -> Edit' --query="$1" --exit-0 --expect=ctrl-o,ctrl-e ${(Q)${(z)FZF_PREVIEW_OPTS}})")
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+    [ "$key" = ctrl-o ] && xdg-open "$file" || ${EDITOR:-vim} "$file"
+  fi
+}
