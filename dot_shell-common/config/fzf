@@ -43,3 +43,17 @@ function fo() {
     [ "$key" = ctrl-o ] && xdg-open "$file" || ${EDITOR:-vim} "$file"
   fi
 }
+
+function vg() {
+  local file
+  local line
+  local arg
+
+  [[ -z "$1" ]] && arg="." || arg="$1"
+  read -r file line <<<"$(rg --no-heading --line-number $arg | fzf -0 -1 | awk -F: '{print $1, $2}')"
+
+  if [[ -n $file ]]
+  then
+     vim $file +$line
+  fi
+}
