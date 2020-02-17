@@ -147,12 +147,31 @@ let g:markdown_fenced_languages = [
             \  'vim',
             \]
 
-" Integrate Ctrl+C/V system clipboard
-set clipboard+=unnamedplus
-
 nnoremap ; :
 nnoremap ! :!
 nnoremap <TAB> :bnext<CR>
 nnoremap <S-TAB> :bprevious<CR>
-" Toggle between two buffers
-nnoremap <Leader><Leader> <c-^>
+" Toggle between two buffers, going to next if there is no alternative one,
+" skipping deleted
+nnoremap <silent> <Leader><Leader> :<C-u>exe v:count ? v:count . 'b' : 'b' . (bufloaded(0) ? '#' : 'n')<CR>
+
+nnoremap <Leader>ov :e $MYVIMRC<CR>
+
+" Integrate Ctrl+C/V system clipboard
+set clipboard+=unnamedplus
+" Copy text objects to the system clipboard
+nnoremap <silent> <Leader>cp "+y
+"xnoremap <silent> <Leader>cp "+y
+"vnoremap <silent> <Leader>cp "+y
+
+" Create file's directory before saving, if it doesn't exist.
+" Original: https://stackoverflow.com/a/4294176/151048
+augroup BWCCreateDir
+  autocmd!
+  autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+augroup END
+fun! s:MkNonExDir(file, buf)
+  if empty(getbufvar(a:buf, '&buftype')) && a:file !~# '\v^\w+\:\/'
+    call mkdir(fnamemodify(a:file, ':h'), 'p')
+  endif
+endfun
