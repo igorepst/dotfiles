@@ -3,3 +3,5 @@
 {{- end }}
 _ignore
 README.md
+.netrwhist
+.viminfo

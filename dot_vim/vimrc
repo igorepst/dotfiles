@@ -1,0 +1,128 @@
+filetype plugin indent on
+syntax enable
+
+set autoindent
+" Allow backspacing over everything in insert mode.
+set backspace=indent,eol,start
+
+" Indent with spaces instead of tabs
+set smarttab
+set tabstop=8
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+" Timeout for mappings
+set timeout
+set timeoutlen=500
+" Timeout for key codes
+set ttimeout
+set ttimeoutlen=50
+
+set incsearch
+set hlsearch
+
+" Do not recognize octal numbers for Ctrl-A and Ctrl-X
+set nrformats-=octal
+
+set history=1000
+
+set scrolloff=5
+set sidescroll=1
+set sidescrolloff=5
+
+set mouse=a
+set ruler
+set showcmd
+set laststatus=2
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+,eol:$
+" Show @@@ in the last line if it is truncated.
+set display=truncate
+" Highlight strings inside C comments
+let c_comment_strings=1
+
+set wildmenu
+set wildmode=longest:full,full
+
+" Use Tab in mappings
+set wildcharm=<Tab>
+
+set ignorecase
+" Case insensitive completion of file/dirs
+set wildignorecase
+
+" Map Q to q and Q! to q!
+command! -bang  Q q<bang>
+
+" Break undo sequence on Space, Tab and Enter
+inoremap <Space> <Space><C-g>u
+inoremap <Tab> <Tab><C-g>u
+inoremap <CR> <CR><C-g>u
+" Make it possible to undo CTRL-U in insert mode
+inoremap <C-U> <C-G>u<C-U>
+
+" Diff between written and current states
+command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
+
+set suffixes+=.aux,.bbl,.blg,.brf,.cb,.dvi,.idx,.ilg,.ind,.inx,.jpg,.log,.out,.png,.toc
+set suffixes-=.h,.obj
+
+nnoremap <Space> <nop>
+let mapleader="\<Space>"
+
+let autoload_plug_path = '~/.vim/autoload/plug.vim'
+if empty(glob(autoload_plug_path))
+  silent execute '!curl -fLo ' . autoload_plug_path . ' --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+unlet autoload_plug_path
+
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/seoul256.vim'
+Plug 'junegunn/fzf.vim'
+call plug#end()
+
+set termguicolors
+
+set background=dark
+let g:seoul256_srgb = 1
+let g:seoul256_background = 236
+colorscheme seoul256
+
+let g:terminal_color_0  = '#4e4e4e'
+let g:terminal_color_1  = '#d68787'
+let g:terminal_color_2  = '#5f865f'
+let g:terminal_color_3  = '#d8af5f'
+let g:terminal_color_4  = '#85add4'
+let g:terminal_color_5  = '#d7afaf'
+let g:terminal_color_6  = '#87afaf'
+let g:terminal_color_7  = '#d0d0d0'
+let g:terminal_color_8  = '#626262'
+let g:terminal_color_9  = '#d75f87'
+let g:terminal_color_10 = '#87af87'
+let g:terminal_color_11 = '#ffd787'
+let g:terminal_color_12 = '#add4fb'
+let g:terminal_color_13 = '#ffafaf'
+let g:terminal_color_14 = '#87d7d7'
+let g:terminal_color_15 = '#e4e4e4'
+
+let fzfIgMenuDict = {
+            \ "Toggle list": "ighelper#ToggleBoolOpt('list')",
+            \ "Toggle wrap": "ighelper#ToggleBoolOpt('wrap')",
+            \ "Toggle hlsearch": "ighelper#ToggleBoolOpt('hlsearch')",
+            \ }
+
+function! s:fzfIgMenuRun(e)
+    for [key, value] in items(g:fzfIgMenuDict)
+        if key ==# a:e
+            execute 'call '. value
+            break
+        endif
+    endfor
+endfunction
+
+command! FZFIgMenu call fzf#run({'source': keys(fzfIgMenuDict), 'sink': function('<sid>fzfIgMenuRun'), 
+            \ 'options': '--reverse', 'down': '40%'})
+
+nnoremap <Leader><F2> :FZFIgMenu<CR>

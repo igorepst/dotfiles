@@ -109,8 +109,8 @@ setopt histignorespace auto_cd longlistjobs notify
 setopt completeinword nohup nobeep auto_pushd pushd_ignore_dups
 setopt globdots nomatch unset rm_star_silent extendedglob
 
-export EDITOR='nvim'
-export VISUAL='nvim'
+export EDITOR='vim'
+export VISUAL='vim'
 eval $(dircolors -b)
 # support colors in less
 # TODO rework colors
