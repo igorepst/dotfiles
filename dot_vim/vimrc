@@ -26,6 +26,9 @@ set hlsearch
 set nrformats-=octal
 
 set history=1000
+set clipboard=unnamedplus
+
+set viminfo='20,<100,:100,%,n~/.vim/.viminfo
 
 set scrolloff=5
 set sidescroll=1
@@ -35,6 +38,11 @@ set mouse=a
 set ruler
 set showcmd
 set laststatus=2
+set relativenumber
+" Wrap long lines at the end of a word
+set linebreak
+" Left/right movement to the prev./next line also
+set whichwrap=b,s,<,>,[,]
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+,eol:$
 " Show @@@ in the last line if it is truncated.
 set display=truncate
