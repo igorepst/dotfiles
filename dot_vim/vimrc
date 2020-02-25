@@ -120,21 +120,32 @@ let g:terminal_color_14 = '#87d7d7'
 let g:terminal_color_15 = '#e4e4e4'
 
 let fzfIgMenuDict = {
-            \ "Toggle list": "ighelper#ToggleBoolOpt('list')",
-            \ "Toggle wrap": "ighelper#ToggleBoolOpt('wrap')",
-            \ "Toggle hlsearch": "ighelper#ToggleBoolOpt('hlsearch')",
+            \ "Toggle list": #{f: "call ighelper#ToggleBoolOpt('list')", k: "<Leader>tl"},
+            \ "Toggle wrap": #{f: "call ighelper#ToggleBoolOpt('wrap')",},
+            \ "Toggle hlsearch": #{f: "call ighelper#ToggleBoolOpt('hlsearch')",},
+            \ "Convert to DOS": #{f: "set ff=dos",},
+            \ "Convert to Unix": #{f: "set ff=unix",},
             \ }
+
+for [key, value] in items(g:fzfIgMenuDict)
+    " Capitalize and trim whitespace in key
+    let keyr = 'Ig' . substitute(substitute(key, '\(\<.\)', '\u&', 'g'), '\(\s\+\)', '', 'g')
+    execute 'command! ' . keyr . ' ' . value['f']
+    if has_key(value, 'k')
+        execute 'nnoremap ' . value['k'] . ' :' . keyr . '<CR>'
+    endif
+endfor
 
 function! s:fzfIgMenuRun(e)
     for [key, value] in items(g:fzfIgMenuDict)
         if key ==# a:e
-            execute 'call '. value
+            execute value['f']
             break
         endif
     endfor
 endfunction
 
-command! FZFIgMenu call fzf#run({'source': keys(fzfIgMenuDict), 'sink': function('<sid>fzfIgMenuRun'), 
+command! FZFIgMenu call fzf#run({'source': sort(keys(fzfIgMenuDict)), 'sink': function('<sid>fzfIgMenuRun'), 
             \ 'options': '--reverse', 'down': '40%'})
 
 nnoremap <Leader><F2> :FZFIgMenu<CR>
