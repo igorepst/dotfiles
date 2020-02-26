@@ -78,7 +78,8 @@ set suffixes-=.h,.obj
 nnoremap <Space> <nop>
 let mapleader="\<Space>"
 
-let autoload_plug_path = '~/.vim/autoload/plug.vim'
+let igVimPath = fnamemodify($MYVIMRC, ":p:h") . '/'
+let autoload_plug_path = igVimPath . 'autoload/plug.vim'
 if empty(glob(autoload_plug_path))
   silent execute '!curl -fLo ' . autoload_plug_path . ' --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -86,15 +87,12 @@ if empty(glob(autoload_plug_path))
 endif
 unlet autoload_plug_path
 
-call plug#begin('~/.vim/plugged')
+call plug#begin(igVimPath . 'plugged')
 Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
 call plug#end()
 
-set termguicolors
-
-set background=dark
 let g:seoul256_srgb = 1
 let g:seoul256_background = 236
 colorscheme seoul256
@@ -119,7 +117,7 @@ let g:terminal_color_13 = '#ffafaf'
 let g:terminal_color_14 = '#87d7d7'
 let g:terminal_color_15 = '#e4e4e4'
 
-let fzfIgMenuDict = {
+let g:fzfIgMenu_dict = {
             \ "Toggle list": #{f: "call ighelper#ToggleBoolOpt('list')", k: "<Leader>tl"},
             \ "Toggle wrap": #{f: "call ighelper#ToggleBoolOpt('wrap')",},
             \ "Toggle hlsearch": #{f: "call ighelper#ToggleBoolOpt('hlsearch')",},
@@ -127,25 +125,4 @@ let fzfIgMenuDict = {
             \ "Convert to Unix": #{f: "set ff=unix",},
             \ }
 
-for [key, value] in items(g:fzfIgMenuDict)
-    " Capitalize and trim whitespace in key
-    let keyr = 'Ig' . substitute(substitute(key, '\(\<.\)', '\u&', 'g'), '\(\s\+\)', '', 'g')
-    execute 'command! ' . keyr . ' ' . value['f']
-    if has_key(value, 'k')
-        execute 'nnoremap ' . value['k'] . ' :' . keyr . '<CR>'
-    endif
-endfor
-
-function! s:fzfIgMenuRun(e)
-    for [key, value] in items(g:fzfIgMenuDict)
-        if key ==# a:e
-            execute value['f']
-            break
-        endif
-    endfor
-endfunction
-
-command! FZFIgMenu call fzf#run({'source': sort(keys(fzfIgMenuDict)), 'sink': function('<sid>fzfIgMenuRun'), 
-            \ 'options': '--reverse', 'down': '40%'})
-
-nnoremap <Leader><F2> :FZFIgMenu<CR>
+nmap <Leader><F2> <Plug>FzfIgMenuOpen
