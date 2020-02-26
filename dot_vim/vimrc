@@ -78,7 +78,7 @@ set suffixes-=.h,.obj
 nnoremap <Space> <nop>
 let mapleader="\<Space>"
 
-let igVimPath = fnamemodify($MYVIMRC, ":p:h") . '/'
+let igVimPath = split(&rtp, ',')[0] . '/'
 let autoload_plug_path = igVimPath . 'autoload/plug.vim'
 if empty(glob(autoload_plug_path))
   silent execute '!curl -fLo ' . autoload_plug_path . ' --create-dirs
@@ -124,5 +124,6 @@ let g:fzfIgMenu_dict = {
             \ "Convert to DOS": #{f: "set ff=dos",},
             \ "Convert to Unix": #{f: "set ff=unix",},
             \ }
+let g:fzfIgMenu_createCmd = 1
 
 nmap <Leader><F2> <Plug>FzfIgMenuOpen

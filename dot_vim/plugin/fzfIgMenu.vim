@@ -4,15 +4,18 @@ endif
 let g:fzfIgMenu_loaded = 1
 
 if !exists('g:fzfIgMenu_dict') | let g:fzfIgMenu_dict = {} | endif
+if !exists('g:fzfIgMenu_createCmd') | let g:fzfIgMenu_createCmd = 0 | endif
 
-for [key, value] in items(g:fzfIgMenu_dict)
-    " Capitalize and trim whitespace in key
-    let keyr = 'Ig' . substitute(substitute(key, '\(\<.\)', '\u&', 'g'), '\(\s\+\)', '', 'g')
-    execute 'command! ' . keyr . ' ' . value['f']
-    if has_key(value, 'k')
-        execute 'nnoremap ' . value['k'] . ' :' . keyr . '<CR>'
-    endif
-endfor
+if (g:fzfIgMenu_createCmd)
+    for [key, value] in items(g:fzfIgMenu_dict)
+        " Capitalize and trim whitespace in key
+        let keyr = 'Ig' . substitute(substitute(key, '\(\<.\)', '\u&', 'g'), '\(\s\+\)', '', 'g')
+        execute 'command! ' . keyr . ' ' . value['f']
+        if has_key(value, 'k')
+            execute 'nnoremap ' . value['k'] . ' :' . keyr . '<CR>'
+        endif
+    endfor
+endif
 
 function! s:fzfIgMenuRun(e)
     for [key, value] in items(g:fzfIgMenu_dict)
