@@ -3,5 +3,6 @@
 {{- end }}
 _ignore
 README.md
-.netrwhist
-.viminfo
+.vim/.netrwhist
+.vim/.viminfo
+.vim/autoload/plug.vim

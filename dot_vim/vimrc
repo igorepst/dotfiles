@@ -28,6 +28,7 @@ set nrformats-=octal
 set history=1000
 set clipboard=unnamedplus
 
+let igVimPath = split(&rtp, ',')[0] . '/'
 set viminfo='20,<100,:100,%,n~/.vim/.viminfo
 
 set scrolloff=5
@@ -78,7 +79,6 @@ set suffixes-=.h,.obj
 nnoremap <Space> <nop>
 let mapleader="\<Space>"
 
-let igVimPath = split(&rtp, ',')[0] . '/'
 let autoload_plug_path = igVimPath . 'autoload/plug.vim'
 if empty(glob(autoload_plug_path))
   silent execute '!curl -fLo ' . autoload_plug_path . ' --create-dirs
@@ -117,13 +117,25 @@ let g:terminal_color_13 = '#ffafaf'
 let g:terminal_color_14 = '#87d7d7'
 let g:terminal_color_15 = '#e4e4e4'
 
+function! GrepCurrentBuffer() abort
+    call inputsave()
+    let pat = input("Pattern: ")
+    call inputrestore()
+    execute 'try | lvimgrep /' . pat . '/ % | lwin | catch | echo "Pattern not found" | endtry'
+endfunction
+
 let g:fzfIgMenu_dict = {
             \ "Toggle list": #{f: "call ighelper#ToggleBoolOpt('list')", k: "<Leader>tl"},
             \ "Toggle wrap": #{f: "call ighelper#ToggleBoolOpt('wrap')",},
             \ "Toggle hlsearch": #{f: "call ighelper#ToggleBoolOpt('hlsearch')",},
             \ "Convert to DOS": #{f: "set ff=dos",},
             \ "Convert to Unix": #{f: "set ff=unix",},
+            \ "Grep current buffer": #{f: "call GrepCurrentBuffer()",},
             \ }
 let g:fzfIgMenu_createCmd = 1
+let g:fzfIgMenu_cmdPrefix = 'Ig'
 
 nmap <Leader><F2> <Plug>FzfIgMenuOpen
+
+set hidden
+set autoread
