@@ -139,3 +139,17 @@ nmap <Leader><F2> <Plug>FzfIgMenuOpen
 
 set hidden
 set autoread
+
+function! FindInRuntime()
+    let pp = ''
+    for p in split(&rtp, ',')
+       let pp .= p . '/**,'
+    endfor
+    call inputsave()
+    let pat = input("Name: ")
+    call inputrestore()
+    let &l:path = pp
+    execute 'find ' . pat
+endfunction
+
+packadd! matchit
