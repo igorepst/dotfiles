@@ -1,7 +1,7 @@
-if exists('g:fzfIgMenu_loaded')
+if exists('g:loaded_fzfIgMenu')
   finish
 endif
-let g:fzfIgMenu_loaded = 1
+let g:loaded_fzfIgMenu = 1
 
 if !exists('g:fzfIgMenu_dict') | let g:fzfIgMenu_dict = {} | endif
 if !exists('g:fzfIgMenu_createCmd') | let g:fzfIgMenu_createCmd = 0 | endif

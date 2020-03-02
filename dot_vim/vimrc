@@ -119,9 +119,9 @@ let g:terminal_color_15 = '#e4e4e4'
 
 function! GrepCurrentBuffer() abort
     call inputsave()
-    let pat = input("Pattern: ")
+    let l:pat = input("Pattern: ")
     call inputrestore()
-    execute 'try | lvimgrep /' . pat . '/ % | lwin | catch | echo "Pattern not found" | endtry'
+    execute 'try | noautocmd lvimgrep /' . l:pat . '/ % | lwindow | catch | echo "Pattern not found" | endtry'
 endfunction
 
 let g:fzfIgMenu_dict = {
@@ -131,6 +131,7 @@ let g:fzfIgMenu_dict = {
             \ "Convert to DOS": #{f: "set ff=dos",},
             \ "Convert to Unix": #{f: "set ff=unix",},
             \ "Grep current buffer": #{f: "call GrepCurrentBuffer()",},
+            \ "Find in runtime": #{f: "call SearchInRuntime()",},
             \ }
 let g:fzfIgMenu_createCmd = 1
 let g:fzfIgMenu_cmdPrefix = 'Ig'
@@ -140,16 +141,34 @@ nmap <Leader><F2> <Plug>FzfIgMenuOpen
 set hidden
 set autoread
 
-function! FindInRuntime()
-    let pp = ''
+function! SearchInRuntime() abort
+    let l:pp = ''
     for p in split(&rtp, ',')
-       let pp .= p . '/**,'
+       let l:pp .= p . '/**,'
     endfor
     call inputsave()
-    let pat = input("Name: ")
+    let l:pat = input("Name: ")
     call inputrestore()
-    let &l:path = pp
-    execute 'find ' . pat
+    let l:oldp = &path
+    let &path = l:pp
+    execute 'find ' . l:pat
+    let &path = oldp
+endfunction
+
+function! SearchInRuntimeEx(searchFileName) abort
+    let l:pat = ''
+    for p in split(&rtp, ',')
+        if isdirectory(p)
+            let l:pat .= p . ' '
+        endif
+    endfor
+    call inputsave()
+    let l:ptn = input('Pattern: ')
+    call inputrestore()
+    if(a:searchFileName)
+        let l:res = systemlist('fd --hidden --ignore-case ' . l:ptn . ' ' . l:pat . ' 2>/dev/null')
+    endif
+    execute 'lgetexpr l:res | lopen'
 endfunction
 
 packadd! matchit
