@@ -117,21 +117,14 @@ let g:terminal_color_13 = '#ffafaf'
 let g:terminal_color_14 = '#87d7d7'
 let g:terminal_color_15 = '#e4e4e4'
 
-function! GrepCurrentBuffer() abort
-    call inputsave()
-    let l:pat = input("Pattern: ")
-    call inputrestore()
-    execute 'try | noautocmd lvimgrep /' . l:pat . '/ % | lwindow | catch | echo "Pattern not found" | endtry'
-endfunction
-
 let g:fzfIgMenu_dict = {
             \ "Toggle list": #{f: "call ighelper#ToggleBoolOpt('list')", k: "<Leader>tl"},
             \ "Toggle wrap": #{f: "call ighelper#ToggleBoolOpt('wrap')",},
             \ "Toggle hlsearch": #{f: "call ighelper#ToggleBoolOpt('hlsearch')",},
             \ "Convert to DOS": #{f: "set ff=dos",},
             \ "Convert to Unix": #{f: "set ff=unix",},
-            \ "Grep current buffer": #{f: "call GrepCurrentBuffer()",},
-            \ "Find in runtime": #{f: "call SearchInRuntime()",},
+            \ "Search in runtime": #{f: "call SearchInRuntime()",},
+            \ "Find file in runtime": #{f: "call FindFileInRuntime()",},
             \ }
 let g:fzfIgMenu_createCmd = 1
 let g:fzfIgMenu_cmdPrefix = 'Ig'
@@ -142,33 +135,11 @@ set hidden
 set autoread
 
 function! SearchInRuntime() abort
-    let l:pp = ''
-    for p in split(&rtp, ',')
-       let l:pp .= p . '/**,'
-    endfor
-    call inputsave()
-    let l:pat = input("Name: ")
-    call inputrestore()
-    let l:oldp = &path
-    let &path = l:pp
-    execute 'find ' . l:pat
-    let &path = oldp
+    call fzf#vim#grep("rg --column --line-number --no-heading --color=always '' " . g:igVimPath . ' /usr/share/vim', 1) 
 endfunction
 
-function! SearchInRuntimeEx(searchFileName) abort
-    let l:pat = ''
-    for p in split(&rtp, ',')
-        if isdirectory(p)
-            let l:pat .= p . ' '
-        endif
-    endfor
-    call inputsave()
-    let l:ptn = input('Pattern: ')
-    call inputrestore()
-    if(a:searchFileName)
-        let l:res = systemlist('fd --hidden --ignore-case ' . l:ptn . ' ' . l:pat . ' 2>/dev/null')
-    endif
-    execute 'lgetexpr l:res | lopen'
+function! FindFileInRuntime() abort
+    call fzf#run({'sink': 'e', 'source': "fd . " . g:igVimPath . ' /usr/share/vim'})
 endfunction
 
 packadd! matchit
