@@ -440,7 +440,7 @@ nnoremap cc cw<c-u>
 nnoremap A cw
 
 " Open console in current directory
-nnoremap ,t :!sh -c $TERMCMD &<cr>
+nnoremap ,t :!sh -c $TERMINAL &<cr>
 
 nnoremap l :if &previewprg == '' | set previewprg='git log --color -- %c 2>&1' | view! | else | set previewprg='' | view | endif<cr>
 

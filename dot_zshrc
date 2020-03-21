@@ -489,7 +489,7 @@ HISTSIZE=5000
 SAVEHIST=10000
 ttyctl -f
 
-path=(~/bin $path[@])
+path+=(~/bin)
 
 profzsh() {
   shell=${1-$SHELL}

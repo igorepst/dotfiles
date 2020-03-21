@@ -12,4 +12,8 @@ sed -i 's@\\\\t@\\t@g' $HOME/.config/kglobalshortcutsrc
 # The name 'kglobalaccel' should have '5' only in the second case
 kquitapp5 kglobalaccel && sleep 2s && kglobalaccel5 &
 
+echo Disabling Baloo indexing
+kwriteconfig5 --file baloofilerc --group 'Basic Settings' --key 'Indexing-Enabled' false
+
+
 echo Done
