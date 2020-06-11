@@ -13,5 +13,6 @@ echo "Installing DejaVu Sans Mono Bold Nerd Font Complete Mono.ttf"
 fdir=~/.local/share/fonts
 /usr/bin/mkdir -p "$fdir"
 /usr/bin/mv -f -t "$fdir" "$tmpdir/"*.ttf
+/usr/bin/rm -rf "$tmpdir"
 /usr/bin/fc-cache
 {{ end -}}
